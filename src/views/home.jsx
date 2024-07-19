@@ -1,9 +1,10 @@
-import MainContent from "../components/MainContent";
+import React from 'react';
+import MainContent from '../components/MainContent';
 
-const Home = () => {
+const Home = ({ travelPlaces }) => {
   return (
     <div>
-      <MainContent />
+      <MainContent travelPlaces={travelPlaces} />
     </div>
   );
 };
