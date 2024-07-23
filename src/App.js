@@ -43,6 +43,7 @@ const travelPlaces = [
 const App = () => {
   return (
     <Router>
+      <div>
       <Routes>
         <Route path="/" element={<Home travelPlaces={travelPlaces} />} />
         <Route path="/map" element={<Map />} />
@@ -51,6 +52,7 @@ const App = () => {
         <Route path="/detail/:id" element={<TravelDetail travelPlaces={travelPlaces} />} />
       </Routes>
       <Footer />
+      </div>
     </Router>
   );
 };

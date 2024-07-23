@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BlindIcon, DeafIcon, BabyIcon, WheelchairIcon, LocationIcon, StarIcon } from './icons/auth-icon';
+import { BlindIcon, DeafIcon, BabyIcon, WheelchairIcon, LocationIcon, StarIcon, ElderIcon } from './icons/auth-icon';
 import PropTypes from 'prop-types';
 
 const Card = styled.div`
@@ -51,7 +51,7 @@ const Icons = styled.div`
   gap: 5px;
 `;
 
-const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, baby, wheelchair }) => {
+const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, baby, wheelchair, elder }) => {
   return (
     <Card onClick={onClick}>
       <Image src={image} alt={title} />
@@ -64,6 +64,7 @@ const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, 
           <StarIcon /> {rating}
         </Rating>
         <Icons>
+          {elder && <ElderIcon />}
           {blind && <BlindIcon />}
           {deaf && <DeafIcon />}
           {baby && <BabyIcon />}
@@ -81,6 +82,7 @@ TravelCard.propTypes = {
   location: PropTypes.string.isRequired,
   rating: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  elder: PropTypes.bool,
   blind: PropTypes.bool,
   deaf: PropTypes.bool,
   baby: PropTypes.bool,

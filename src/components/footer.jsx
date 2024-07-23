@@ -6,6 +6,7 @@ import mapIcon from './icons/map.png';
 import chatIcon from './icons/chat.png';
 import browserIcon from './icons/browser.png';
 import favoritesIcon from './icons/favorites.png';
+import { HomeIcon, LocationIcon } from './icons/auth-icon';
 
 const FooterContainer = styled.footer`
   background-color: white;
@@ -47,11 +48,11 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterLink to="/" className="icon-container">
-        <img src={homeIcon} className="icon" alt="홈" />
+        <HomeIcon className="icon" alt="홈" />
         <div className="label">홈</div>
       </FooterLink>
       <FooterLink to="/map" className="icon-container">
-        <img src={mapIcon} className="icon" alt="지도" />
+        <LocationIcon className="icon" alt="지도"/>
         <div className="label">지도</div>
       </FooterLink>
       <FooterLink to ="/chat" className="icon-container">

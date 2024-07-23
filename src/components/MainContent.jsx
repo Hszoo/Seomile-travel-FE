@@ -35,11 +35,11 @@ const MainContent = ({ travelPlaces }) => {
   };
 
   const filteredPlaces = travelPlaces.filter((place) => {
-    if (activeFilter === '전체') return true;
+    if (activeFilter === '지체' && place.wheelchair) return true;
     if (activeFilter === '시각' && place.blind) return true;
     if (activeFilter === '청각' && place.deaf) return true;
     if (activeFilter === '영유아' && place.baby) return true;
-    if (activeFilter === '노령자' && place.wheelchair) return true;
+    if (activeFilter === '노령자' && place.elder) return true;
     return false;
   });
 
@@ -47,7 +47,7 @@ const MainContent = ({ travelPlaces }) => {
     <Container>
       <Title>여행지 추천</Title>
       <FilterContainer>
-        <FilterButton label="전체" active={activeFilter === '전체'} onClick={() => filterPlaces('전체')} />
+        <FilterButton label="지체" active={activeFilter === '지체'} onClick={() => filterPlaces('지체')} />
         <FilterButton label="시각" active={activeFilter === '시각'} onClick={() => filterPlaces('시각')} />
         <FilterButton label="청각" active={activeFilter === '청각'} onClick={() => filterPlaces('청각')} />
         <FilterButton label="영유아" active={activeFilter === '영유아'} onClick={() => filterPlaces('영유아')} />
@@ -62,10 +62,11 @@ const MainContent = ({ travelPlaces }) => {
             title={place.title}
             location={place.location}
             rating={place.rating}
+            wheelchair={place.wheelchair}
             blind={place.blind}
             deaf={place.deaf}
             baby={place.baby}
-            wheelchair={place.wheelchair}
+            elder={place.elder}
             onClick={() => navigate(`/detail/${place.id}`)}
           />
         ))}
