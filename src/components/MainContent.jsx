@@ -1,3 +1,4 @@
+// MainContent.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FilterButton from './FilterButton';
@@ -33,7 +34,7 @@ const CardGrid = styled.div`
   }
 `;
 
-const MainContent = ({ travelPlaces }) => {
+const MainContent = ({ travelPlaces = []}) => {
   const [activeFilter, setActiveFilter] = useState('전체');
 
   const filterPlaces = (filter) => {
