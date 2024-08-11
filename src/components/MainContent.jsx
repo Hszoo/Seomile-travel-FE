@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import FilterButton from './FilterButton';
 import TravelCard from './TravelPlace';
 
@@ -24,11 +23,18 @@ const CardGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
   justify-items: center;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));  /* 태블릿 이상에서 카드 크기 조정 */
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);  /* 데스크탑에서 4열 레이아웃 */
+  }
 `;
 
 const MainContent = ({ travelPlaces }) => {
   const [activeFilter, setActiveFilter] = useState('전체');
-  const navigate = useNavigate();
 
   const filterPlaces = (filter) => {
     setActiveFilter(filter);
@@ -67,7 +73,6 @@ const MainContent = ({ travelPlaces }) => {
             deaf={place.deaf}
             baby={place.baby}
             elder={place.elder}
-            onClick={() => navigate(`/detail/${place.id}`)}
           />
         ))}
       </CardGrid>

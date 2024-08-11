@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { BlindIcon, DeafIcon, BabyIcon, WheelchairIcon, LocationIcon, StarIcon, ElderIcon } from './icons/auth-icon';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled.div`
   background: white;
@@ -11,6 +13,7 @@ const Card = styled.div`
   padding: 10px;
   width: 150px; /* 카드 크기 조정 */
   cursor: pointer;
+  position: relative; /* 하트 아이콘의 위치 설정을 위해 추가 */
 `;
 
 const Image = styled.img`
@@ -51,10 +54,52 @@ const Icons = styled.div`
   gap: 5px;
 `;
 
-const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, baby, wheelchair, elder }) => {
+const HeartButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${(props) => (props.isFavorite ? 'red' : 'gray')}; /* 좋아요 상태에 따른 색상 */
+  font-size: 24px;
+`;
+
+const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, baby, wheelchair, elder, hideHeart }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setIsFavorite(favorites.some(fav => fav.id === id));
+  }, [id]);
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    const updatedFavorite = !isFavorite;
+    setIsFavorite(updatedFavorite);
+
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (updatedFavorite) {
+      favorites.push({ id, image, title, location, rating, blind, deaf, baby, wheelchair, elder });
+    } else {
+      favorites = favorites.filter(fav => fav.id !== id);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  };
+
+  const handleClick = () => {
+    navigate(`/detail/${id}`);
+  };
+
   return (
-    <Card onClick={onClick}>
+    <Card onClick={handleClick}>
       <Image src={image} alt={title} />
+      {!hideHeart && (
+        <HeartButton isFavorite={isFavorite} onClick={handleFavoriteClick}>
+          {isFavorite ? <FaHeart /> : <FaRegHeart />}
+        </HeartButton>
+      )}
       <Content>
         <Title>{title}</Title>
         <Location>
@@ -81,12 +126,13 @@ TravelCard.propTypes = {
   title: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   rating: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   elder: PropTypes.bool,
   blind: PropTypes.bool,
   deaf: PropTypes.bool,
   baby: PropTypes.bool,
   wheelchair: PropTypes.bool,
+  hideHeart: PropTypes.bool,
 };
 
 export default TravelCard;

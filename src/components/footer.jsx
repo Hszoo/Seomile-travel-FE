@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import homeIcon from './icons/home.png';
-import mapIcon from './icons/map.png';
-import chatIcon from './icons/chat.png';
-import browserIcon from './icons/browser.png';
-import favoritesIcon from './icons/favorites.png';
-import { HomeIcon, LocationIcon } from './icons/auth-icon';
+import { Link, useLocation } from 'react-router-dom';
+import { HomeIcon, LocationIcon, ProgramIcon, FavoritesIcon } from './icons/auth-icon';
+import { FaRegCommentDots } from 'react-icons/fa';  // 채팅 아이콘으로 FaRegCommentDots 사용
 
 const FooterContainer = styled.footer`
   background-color: white;
@@ -19,14 +15,19 @@ const FooterContainer = styled.footer`
   bottom: 0;
   width: 100%;
   box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+`;
 
-  .icon-container.active {
-    color: #00aaff;
-  }
+const FooterLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: ${(props) => (props.active ? '#00aaff' : 'gray')};  /* 활성화 여부에 따라 색상 변경 */
 
   .icon {
     width: 24px;
     height: 24px;
+    filter: ${(props) => (props.active ? 'none' : 'grayscale(100%)')};  /* 비활성화 시 아이콘 회색조로 */
   }
 
   .label {
@@ -35,35 +36,48 @@ const FooterContainer = styled.footer`
   }
 `;
 
-const FooterLink = styled(Link)`
+const ChatIconContainer = styled.div`
+  width: 50px;
+  height: 50px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  color: blue;
-  text-decoration: none;
+  background-color: #00aaff;  /* 기본 회색 배경 */
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
+  .icon {
+    width: 24px;
+    height: 24px;
+    color: white;  /* 흰색 아이콘 */
+  }
 `;
 
 const Footer = () => {
+  const location = useLocation();  // 현재 경로를 가져옵니다.
+
   return (
     <FooterContainer>
-      <FooterLink to="/" className="icon-container">
-        <HomeIcon className="icon" alt="홈" />
+      <FooterLink to="/" active={location.pathname === '/'}>
+        <HomeIcon className="icon" />
         <div className="label">홈</div>
       </FooterLink>
-      <FooterLink to="/map" className="icon-container">
-        <LocationIcon className="icon" alt="지도"/>
+      <FooterLink to="/map" active={location.pathname === '/map'}>
+        <LocationIcon className="icon" />
         <div className="label">지도</div>
       </FooterLink>
-      <FooterLink to ="/chat" className="icon-container">
-        <img src={chatIcon} className="icon" alt="채팅" />
+      <FooterLink to="/chat">
+        <ChatIconContainer>
+          <FaRegCommentDots className="icon" />  {/* 흰색 아이콘 */}
+        </ChatIconContainer>
       </FooterLink>
-      <FooterLink to="/program" className="icon-container">
-        <img src={browserIcon} className="icon" alt="프로그램" />
+      <FooterLink to="/program" active={location.pathname === '/program'}>
+        <ProgramIcon className="icon" />
         <div className="label">프로그램</div>
       </FooterLink>
-      <FooterLink to="/favorites" className="icon-container">
-        <img src={favoritesIcon} className="icon" alt="즐겨찾기" />
+      <FooterLink to="/favorites" active={location.pathname === '/favorites'}>
+        <FavoritesIcon className="icon" />
         <div className="label">즐겨찾기</div>
       </FooterLink>
     </FooterContainer>
