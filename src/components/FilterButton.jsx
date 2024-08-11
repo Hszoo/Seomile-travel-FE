@@ -8,8 +8,8 @@ const Button = styled.button`
   margin: 0 5px;
   font-size: 16px;
   cursor: pointer;
-  width: 55px;  /* 고정된 너비 */
-  height: 55px; /* 고정된 높이 */
+  width: 55px;  
+  height: 55px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,9 +21,9 @@ const Button = styled.button`
   }
 
   @media (min-width: 768px) {
-    width: 70px;  /* 웹에서 더 큰 화면을 위한 버튼 크기 조정 */
-    height: 70px; /* 웹에서 더 큰 화면을 위한 버튼 크기 조정 */
-    font-size: 18px; /* 텍스트 크기도 약간 증가 */
+    width: 70px;
+    height: 70px;
+    font-size: 18px;
   }
 
   @media (min-width: 1024px) {

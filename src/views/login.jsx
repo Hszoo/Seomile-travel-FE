@@ -35,7 +35,7 @@ const KakaoButton = styled.button`
   border: none;
   border-radius: 5px;
   width: 80%;
-  max-width: 300px; /* 웹에서의 최대 너비 설정 */
+  max-width: 300px; 
   padding: 15px;
   font-size: 16px;
   display: flex;
@@ -49,7 +49,7 @@ const Divider = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
-  max-width: 300px; /* 웹에서의 최대 너비 설정 */
+  max-width: 300px;
   margin: 20px 0;
 
   &::before,
@@ -74,14 +74,14 @@ const Divider = styled.div`
 
 const InputContainer = styled.div`
   width: 80%;
-  max-width: 300px; /* 웹에서의 최대 너비 설정 */
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Input = styled.input`
-  width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+  width: 100%;
   padding: 15px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -104,7 +104,7 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
-  max-width: 300px; /* 웹에서의 최대 너비 설정 */
+  max-width: 300px;
   margin-top: 15px;
   font-size: 14px;
 

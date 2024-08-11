@@ -8,7 +8,7 @@ import Favorites from "./views/favorites";
 import Home from './views/home';
 import TravelDetail from './views/traveldetail';
 import Login from './views/login';
-import SignUp from './views/signup'; // 회원가입 페이지 추가
+import SignUp from './views/signup'; 
 
 const travelPlaces = [
   // ... 여행지 데이터

@@ -95,13 +95,13 @@ const Program = () => {
 
   const handleSelectSido = (sido) => {
     setSelectedSido(sido);
-    setSelectedSubArea(''); // 시/도 선택 시 지역 초기화
-    setModalVisible(false); // 선택 후 모달 닫기
+    setSelectedSubArea(''); 
+    setModalVisible(false); 
   };
 
   const handleSelectSubArea = (subArea) => {
     setSelectedSubArea(subArea);
-    setLocalModalVisible(false); // 선택 후 모달 닫기
+    setLocalModalVisible(false);
   };
 
   const selectedSidoData = sidos.find(sido => sido.name === selectedSido);

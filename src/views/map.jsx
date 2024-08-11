@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-import { IoMdHome, IoMdMap, IoMdChatbubbles, IoMdBrowsers, IoMdHeart } from 'react-icons/io';
-import { WheelchairIcon } from '../components//icons/auth-icon'; // Adjust the import based on your setup
+import { WheelchairIcon } from '../components//icons/auth-icon';
 
 const Container = styled.div`
   display: flex;

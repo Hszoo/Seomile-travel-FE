@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { HomeIcon, LocationIcon, ProgramIcon, FavoritesIcon } from './icons/auth-icon';
-import { FaRegCommentDots } from 'react-icons/fa';  // 채팅 아이콘으로 FaRegCommentDots 사용
+import { FaRegCommentDots } from 'react-icons/fa'; 
 
 const FooterContainer = styled.footer`
   background-color: white;
@@ -42,7 +42,7 @@ const ChatIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #00aaff;  /* 기본 회색 배경 */
+  background-color: #00aaff;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -50,12 +50,12 @@ const ChatIconContainer = styled.div`
   .icon {
     width: 24px;
     height: 24px;
-    color: white;  /* 흰색 아이콘 */
+    color: white; 
   }
 `;
 
 const Footer = () => {
-  const location = useLocation();  // 현재 경로를 가져옵니다.
+  const location = useLocation();
 
   return (
     <FooterContainer>
@@ -69,7 +69,7 @@ const Footer = () => {
       </FooterLink>
       <FooterLink to="/chat">
         <ChatIconContainer>
-          <FaRegCommentDots className="icon" />  {/* 흰색 아이콘 */}
+          <FaRegCommentDots className="icon" /> 
         </ChatIconContainer>
       </FooterLink>
       <FooterLink to="/program" active={location.pathname === '/program'}>

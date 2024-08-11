@@ -11,15 +11,15 @@ const Card = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 20px;
   padding: 10px;
-  width: 150px; /* 카드 크기 조정 */
+  width: 150px;
   cursor: pointer;
-  position: relative; /* 하트 아이콘의 위치 설정을 위해 추가 */
+  position: relative; 
 `;
 
 const Image = styled.img`
   border-radius: 10px;
   width: 100%;
-  height: 100px; /* 이미지 높이 조정 */
+  height: 100px;
   object-fit: cover;
 `;
 
@@ -28,20 +28,20 @@ const Content = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 16px; /* 폰트 크기 조정 */
+  font-size: 16px;
   margin: 10px 0;
 `;
 
 const Location = styled.div`
   color: #777;
-  font-size: 12px; /* 폰트 크기 조정 */
+  font-size: 12px;
   display: flex;
   align-items: center;
 `;
 
 const Rating = styled.div`
   color: #ffcc00;
-  font-size: 14px; /* 폰트 크기 조정 */
+  font-size: 14px;
   display: flex;
   align-items: center;
   margin: 10px 0;
@@ -50,7 +50,7 @@ const Rating = styled.div`
 const Icons = styled.div`
   margin-top: 10px;
   display: flex;
-  font-size: 20px; /* 아이콘 크기 조정 */
+  font-size: 20px;
   gap: 5px;
 `;
 

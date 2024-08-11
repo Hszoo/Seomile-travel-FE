@@ -29,7 +29,7 @@ const CardGrid = styled.div`
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);  /* 데스크탑에서 4열 레이아웃 */
+    grid-template-columns: repeat(4, 1fr); 
   }
 `;
 
