@@ -34,7 +34,14 @@ const Button = styled.button`
 `;
 
 const FilterButton = ({ label, active, onClick }) => {
-  return <Button active={active} onClick={onClick}>{label}</Button>;
+  return (
+    <Button
+      active={active ? 'true' : undefined} // active가 true일 때만 'true'로 설정
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  );
 };
 
 export default FilterButton;
