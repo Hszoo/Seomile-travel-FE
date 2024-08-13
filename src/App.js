@@ -9,54 +9,47 @@ import Home from './views/home';
 import TravelDetail from './views/traveldetail';
 import Login from './views/login';
 import SignUp from './views/signup'; 
-import axios from 'axios';  // Axios는 HTTP 요청을 위한 라이브러리입니다.
+import Chat from './views/chat'; // chat.jsx 파일 import
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [travelPlaces, setTravelPlaces] = useState([]);  // 여행지 상태 추가
 
   useEffect(() => {
-    // API 호출 함수
-    const fetchTravelPlaces = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8080/travel/list?categories=1&categories=3');
-        setTravelPlaces(response.data);  // 데이터를 상태에 저장
-      } catch (error) {
-        console.error('Error fetching travel places:', error);
-      }
-    };
-
-    fetchTravelPlaces();
-  }, []);  // 빈 배열을 넣어 컴포넌트가 마운트될 때만 호출되도록 함
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    if (storedAuth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
+    localStorage.setItem('isAuthenticated', 'true');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('isAuthenticated');
   };
 
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={ 
-              <div>
-                  <Home travelPlaces={travelPlaces} />
-                  <Footer />
-              </div>} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 라우트 추가 */}
-          {/* <Route
-            path="/"
+          <Route path="/signup" element={<SignUp />} />
+
+          {/* 인증 필요 없는 페이지 */}
+          <Route 
+            path="/" 
             element={
-              isAuthenticated ? (
-                <div>
-                  <Home travelPlaces={travelPlaces} />
-                  <Footer />
-                </div>
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
-          /> */}
+              <div>
+                <Home />
+                <Footer />
+              </div>
+            } 
+          />
+
+          {/* 인증이 필요한 페이지 */}
           <Route
             path="/map"
             element={
@@ -66,7 +59,7 @@ const App = () => {
                   <Footer />
                 </div>
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
@@ -79,7 +72,7 @@ const App = () => {
                   <Footer />
                 </div>
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
@@ -92,7 +85,7 @@ const App = () => {
                   <Footer />
                 </div>
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to="/login" replace />
               )
             }
           />
@@ -100,9 +93,22 @@ const App = () => {
             path="/detail/:id"
             element={
               isAuthenticated ? (
-                <TravelDetail travelPlaces={travelPlaces} />
+                <TravelDetail />
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              isAuthenticated ? (
+                <div>
+                  <Chat />
+                  <Footer />
+                </div>
+              ) : (
+                <Navigate to="/login" replace />
               )
             }
           />

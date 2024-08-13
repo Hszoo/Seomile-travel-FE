@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import axios from 'axios';  
+import { Link, useNavigate } from 'react-router-dom';  
 
 const Container = styled.div`
   display: flex;
@@ -114,7 +115,27 @@ const Footer = styled.div`
   }
 `;
 
-const Login = () => {
+const Login = ({ onLogin }) => {
+  const [username, setUsername] = useState('');  // 'id'를 'username'으로 변경
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8080/api/login', {
+        username,  // 'id'를 'username'으로 변경
+        password,
+      });
+      if (response.status === 200) {
+        onLogin();  // 로그인 상태 업데이트
+        navigate('/');  // 로그인 성공 시 홈 페이지로 이동
+      }
+    } catch (error) {
+      console.error('로그인 오류:', error);
+      alert('로그인에 실패했습니다.');
+    }
+  };
+
   return (
     <Container>
       <Title>
@@ -126,9 +147,19 @@ const Login = () => {
       </KakaoButton>
       <Divider><span>또는</span></Divider>
       <InputContainer>
-        <Input type="text" placeholder="아이디" />
-        <Input type="password" placeholder="비밀번호" />
-        <LoginButton>로그인</LoginButton>
+        <Input 
+          type="text" 
+          placeholder="아이디" 
+          value={username}  // 'id'를 'username'으로 변경
+          onChange={(e) => setUsername(e.target.value)}  // 'setId'를 'setUsername'으로 변경
+        />
+        <Input 
+          type="password" 
+          placeholder="비밀번호" 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+        <LoginButton onClick={handleLogin}>로그인</LoginButton>
       </InputContainer>
       <Footer>
         <Link to="/signup">회원가입</Link> 

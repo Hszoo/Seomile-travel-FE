@@ -67,7 +67,7 @@ const Footer = () => {
         <LocationIcon className="icon" />
         <div className="label">지도</div>
       </FooterLink>
-      <FooterLink to="/chat">
+      <FooterLink to="/chat" active={location.pathname === '/chat'}>
         <ChatIconContainer>
           <FaRegCommentDots className="icon" /> 
         </ChatIconContainer>

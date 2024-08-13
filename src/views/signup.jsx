@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';  
+import { useNavigate } from 'react-router-dom';  
 
 const Container = styled.div`
   display: flex;
@@ -71,6 +73,34 @@ const Footer = styled.div`
 `;
 
 const SignUp = () => {
+  const [username, setUsername] = useState('');  // 'id'를 'username'으로 변경
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8080/api/signup', {
+        username,  // 'id'를 'username'으로 변경
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        // 회원가입 성공 시 로그인 페이지로 이동
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('회원가입 오류:', error);
+      alert('회원가입에 실패했습니다.');
+    }
+  };
+
   return (
     <Container>
       <Title>
@@ -78,11 +108,31 @@ const SignUp = () => {
       </Title>
       <SubTitle>회원가입</SubTitle>
       <InputContainer>
-        <Input type="text" placeholder="아이디" />
-        <Input type="email" placeholder="이메일" />
-        <Input type="password" placeholder="비밀번호" />
-        <Input type="password" placeholder="비밀번호 확인" />
-        <SignUpButton>회원가입</SignUpButton>
+        <Input 
+          type="text" 
+          placeholder="아이디" 
+          value={username}  // 'id'를 'username'으로 변경
+          onChange={(e) => setUsername(e.target.value)}  // 'setId'를 'setUsername'으로 변경
+        />
+        <Input 
+          type="email" 
+          placeholder="이메일" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)} 
+        />
+        <Input 
+          type="password" 
+          placeholder="비밀번호" 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+        <Input 
+          type="password" 
+          placeholder="비밀번호 확인" 
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)} 
+        />
+        <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
       </InputContainer>
       <Footer>
         <a href="/login">로그인</a>
