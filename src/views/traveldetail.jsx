@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { BabyIcon, BlindIcon, DeafIcon, WheelchairIcon, StarIcon } from '../components/icons/auth-icon';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 
 const Container = styled.div`
   padding: 20px;
@@ -34,64 +33,72 @@ const BasicInfo = styled.div`
   margin: 20px 0;
 `;
 
-const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  margin-right: 10px;
+const ReviewButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
-const TravelDetail = ({ travelPlaces }) => {
-  const { id } = useParams();
-  const place = travelPlaces.find(p => p.id === id);
+const TravelDetail = () => {
+  const { id } = useParams(); // URL 파라미터에서 id를 추출
+  const navigate = useNavigate(); // useNavigate를 통해 페이지 이동을 관리
+  const [place, setPlace] = useState(null); // 여행지 데이터를 저장할 상태
+  const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [error, setError] = useState(null); // 오류 상태 관리
 
+  useEffect(() => {
+    const fetchTravelDetail = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://127.0.0.1:8080/travel`, {
+          params: { travelCode: id } // 서버에 travelCode로 id를 전달
+        });
+        setPlace(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching travel detail:', err);
+        setError('Error fetching travel detail');
+        setLoading(false);
+      }
+    };
+
+    fetchTravelDetail();
+  }, [id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!place) return <div>No travel data available</div>;
+
+  const handleReviewClick = () => {
+    navigate(`/review/${id}`); // 리뷰 페이지로 이동
+  };
 
   return (
     <Container>
-      <Image src={place.image} alt={place.title} />
-      <Title>
-        {place.title} 
-        <IconWrapper>
-          {place.blind && <BlindIcon />}
-          {place.deaf && <DeafIcon />}
-          {place.baby && <BabyIcon />}
-          {place.wheelchair && <WheelchairIcon />}
-        </IconWrapper>
-      </Title>
+      <Image src={place.travImg} alt={place.travName} />
+      <Title>{place.travName}</Title>
       <Rating>
-        <StarIcon /> {place.rating}
+        <span>Rating: {place.reviewRating}</span>
       </Rating>
       <BasicInfo>
         <h3>기본 정보</h3>
-        <p>주소: {place.address}</p>
-        <p>문의: {place.contact}</p>
-        <p>휴무일: {place.closedDays}</p>
-        <p>이용시간: {place.hours}</p>
+        <p>주소: {place.travAddress}</p>
+        <p>문의: {place.tel}</p>
+        <p>휴무일: {place.closeDate}</p>
+        <p>이용시간: {place.availableTime}</p>
         <p>이용요금: {place.fee}</p>
       </BasicInfo>
+      <ReviewButton onClick={handleReviewClick}>리뷰 작성하기</ReviewButton>
     </Container>
   );
-};
-
-TravelDetail.propTypes = {
-  travelPlaces: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      rating: PropTypes.string.isRequired,
-      blind: PropTypes.bool,
-      deaf: PropTypes.bool,
-      baby: PropTypes.bool,
-      wheelchair: PropTypes.bool,
-      address: PropTypes.string.isRequired,
-      contact: PropTypes.string.isRequired,
-      closedDays: PropTypes.string.isRequired,
-      hours: PropTypes.string.isRequired,
-      fee: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 };
 
 export default TravelDetail;
