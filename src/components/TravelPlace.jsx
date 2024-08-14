@@ -61,23 +61,23 @@ const HeartButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${(props) => (props.isFavorite ? 'red' : 'gray')}; /* 좋아요 상태에 따른 색상 */
+  color: ${(props) => (props.isfavorite ? 'red' : 'gray')}; /* 좋아요 상태에 따른 색상 */
   font-size: 24px;
 `;
 
 const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, baby, wheelchair, elder, hideHeart }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isfavorite, setisfavorite] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setIsFavorite(favorites.some(fav => fav.id === id));
+    setisfavorite(favorites.some(fav => fav.id === id));
   }, [id]);
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    const updatedFavorite = !isFavorite;
-    setIsFavorite(updatedFavorite);
+    const updatedFavorite = !isfavorite;
+    setisfavorite(updatedFavorite);
 
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (updatedFavorite) {
@@ -96,8 +96,8 @@ const TravelCard = ({ id, image, title, location, rating, onClick, blind, deaf, 
     <Card onClick={handleClick}>
       <Image src={image} alt={title} />
       {!hideHeart && (
-        <HeartButton isFavorite={isFavorite} onClick={handleFavoriteClick}>
-          {isFavorite ? <FaHeart /> : <FaRegHeart />}
+        <HeartButton isfavorite={isfavorite} onClick={handleFavoriteClick}>
+          {isfavorite ? <FaHeart /> : <FaRegHeart />}
         </HeartButton>
       )}
       <Content>

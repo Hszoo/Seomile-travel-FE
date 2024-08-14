@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-import { GoogleMap, Marker, LoadScript, InfoWindow } from '@react-google-maps/api';
+import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import axios from 'axios';
 
 const Container = styled.div`
@@ -85,7 +85,7 @@ const defaultCenter = {
   lng: 126.9780
 };
 
-const Map = () => {
+const KakaoMap = () => {
   const [places, setPlaces] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -152,39 +152,33 @@ const Map = () => {
         />
       </SearchBar>
       <MapContainer>
-        <LoadScript googleMapsApiKey="AIzaSyBuc55NM4zQrmthzmlHfjoY4uJZzEdqlgM">
-          <GoogleMap
-            mapContainerStyle={mapStyles}
-            zoom={12}
-            center={defaultCenter}
-          >
-            {places.map((place, index) => (
-              <Marker 
-                key={index}
-                position={{ lat: parseFloat(place.travX), lng: parseFloat(place.travY) }}
-                title={place.travName}
-                onClick={() => handleMarkerClick(place)}
-              />
-            ))}
-
-            {selectedPlace && (
-              <InfoWindow
-                position={{ lat: parseFloat(selectedPlace.travX), lng: parseFloat(selectedPlace.travY) }}
-                onCloseClick={() => setSelectedPlace(null)}
-              >
-                <div>
-                  <h3>{selectedPlace.travName}</h3>
-                  <p>{selectedPlace.travAddress}</p>
-                  <p>{`Latitude: ${selectedPlace.travX}, Longitude: ${selectedPlace.travY}`}</p>
-                </div>
-              </InfoWindow>
-            )}
-          </GoogleMap>
-        </LoadScript>
+        <Map 
+          center={defaultCenter}
+          style={mapStyles}
+          level={4} 
+        >
+          {places.map((place, index) => (
+            <MapMarker 
+              key={index}
+              position={{ lat: parseFloat(place.travX), lng: parseFloat(place.travY) }}
+              title={place.travName}
+              onClick={() => handleMarkerClick(place)}
+            >
+              {selectedPlace && selectedPlace.travName === place.travName && (
+                <CustomOverlayMap position={{ lat: parseFloat(place.travX), lng: parseFloat(place.travY) }}>
+                  <div style={{ padding: '10px', background: '#fff', borderRadius: '5px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.3)' }}>
+                    <h3>{place.travName}</h3>
+                    <p>{place.travAddress}</p>
+                  </div>
+                </CustomOverlayMap>
+              )}
+            </MapMarker>
+          ))}
+        </Map>
         <ListItemContainer ref={listRef} style={{ height: listHeight }}>
           <Resizer onMouseDown={handleMouseDown} />
           {places.map((place, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} onClick={() => handleMarkerClick(place)}>
               <ListItemText>
                 <ListItemTitle>{place.travName}</ListItemTitle>
                 <ListItemSubtitle>{place.travAddress}</ListItemSubtitle>
@@ -197,4 +191,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default KakaoMap;
